@@ -59,7 +59,7 @@ function main(context) {
         supportedTools: [],
         queryModPath: () => 'BepInEx/plugins',
         logo: 'gameart.jpg',
-        executable: 'OrcMassage.exe',
+        executable: () => 'OrcMassage.exe',
         requiredFiles: [
             'OrcMassage.exe'
         ],
@@ -77,6 +77,9 @@ function main(context) {
             context.api.ext.bepinexAddGame({ 
                 gameId: GAME_ID, 
                 autoDownloadBepInEx: true,
+                forceGithubDownload: true,
+                architecture: 'x64',
+                bepinexVersion: '5.4.22',
                 unityBuild: 'unitymono',
             });
         }
