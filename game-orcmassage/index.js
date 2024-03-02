@@ -6,48 +6,6 @@ const STEAMAPP_ID = '1129540';
 const MOD_FILE_EXT = ".cs";
 
 
-function findGame() {
-    return util.GameStoreHelper.FindByAppId([STEAMAPP_ID])
-        .then(game => game.gamePath);
-}
-
-
-function prepareForModding(discovery) {
-    return fs.ensureDirWritableAsync(path.join(discovery.path, 'BepInEx', 'plugins'))
-}
-
-
-// function testSupportedContent(files, gameId) {
-//     let supported = (gameId === GAME_ID) &&
-//         (files.find(file => path.extname(file).toLowerCase() === MOD_FILE_EXT) !== undefined);
-//     return Promise.resolve({
-//         supported,
-//         requiredFiles: [],
-//     });
-// }
-
-
-// function installContent(files) {
-//     const modFile = files.find(file => path.extname(file).toLowerCase() === MOD_FILE_EXT);
-//     const idx = modFile.indexOf(path.basename(modFile));
-//     const rootPath = path.dirname(modFile);
-//
-//     const filtered = files.filter(file => 
-//         ((file.indexOf(rootPath) !== -1) 
-//         && (!file.endsWith(path.sep))));
-//
-//     const instructions = filtered.map(file => {
-//         return {
-//             type: 'copy',
-//             source: file,
-//             destination: path.join(file.substr(idx)),
-//         };
-//     });
-//
-//     return Promise.resolve({ instructions });
-// }
-
-
 function main(context) {
     context.requireExtension('modtype-bepinex');
 
@@ -77,17 +35,27 @@ function main(context) {
             context.api.ext.bepinexAddGame({ 
                 gameId: GAME_ID, 
                 autoDownloadBepInEx: true,
-                forceGithubDownload: true,
                 architecture: 'x64',
-                bepinexVersion: '5.4.22',
-                unityBuild: 'unitymono',
+                bepinexVersion: '5.4.21',
+                forceGithubDownload: true,
             });
         }
     });
 
-    // context.registerInstaller('orcmassage-bepinex-plugin', 25, testSupportedContent, installContent);
     return true
 }
+
+
+function findGame() {
+    return util.GameStoreHelper.FindByAppId([STEAMAPP_ID])
+        .then(game => game.gamePath);
+}
+
+
+function prepareForModding(discovery) {
+    return fs.ensureDirWritableAsync(path.join(discovery.path, 'BepInEx'))
+}
+
 
 module.exports = {
     default: main,
