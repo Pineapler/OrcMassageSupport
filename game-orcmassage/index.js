@@ -47,7 +47,7 @@ function main(context) {
 
 
 function findGame() {
-    return util.GameStoreHelper.FindByAppId([STEAMAPP_ID])
+    return util.GameStoreHelper.findByAppId([STEAMAPP_ID])
         .then(game => game.gamePath);
 }
 
